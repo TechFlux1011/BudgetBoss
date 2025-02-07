@@ -9,20 +9,30 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EEC'];
 const Dashboard = () => {
   const [chartData, setChartData] = useState([]);
   const [period, setPeriod] = useState('monthly');
-  // For demonstration, we use a static userId. In a real app, get this from your auth/session.
-  const userId = "YOUR_USER_ID_HERE";
 
+  // For demonstration, we can use static data.
+  // In a real app, you would fetch this data from your backend.
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/dashboard?period=${period}&userId=${userId}`)
-      .then((response) => setChartData(response.data))
-      .catch((error) => console.error('Error fetching dashboard data:', error));
-  }, [period, userId]);
+    // Uncomment the following lines to fetch from an API endpoint:
+    // axios.get('http://localhost:5000/dashboard?period=monthly')
+    //   .then(response => setChartData(response.data))
+    //   .catch(error => console.error('Error fetching dashboard data:', error));
+
+    // Static data example:
+    setChartData([
+      { category: 'housing', value: 1200 },
+      { category: 'utilities', value: 300 },
+      { category: 'food', value: 800 },
+      { category: 'transportation', value: 400 },
+      { category: 'leftover', value: 300 }
+      ]);
+    }, []);
 
   return (
     <div className="dashboard-container">
       <h2>Budget Breakdown</h2>
       <div className="toggle">
+        {/* Toggle buttons can be added here to switch between weekly and monthly */}
         <button onClick={() => setPeriod('weekly')} className={period === 'weekly' ? 'active' : ''}>
           Weekly
         </button>
@@ -33,15 +43,13 @@ const Dashboard = () => {
       <PieChart width={400} height={400}>
         <Pie
           data={chartData}
-          dataKey="percentage"  // Using calculated percentage for slice sizes
+          dataKey="value"
           nameKey="category"
           cx="50%"
           cy="50%"
           outerRadius={120}
           fill="#8884d8"
-          label={({ category, percentage, amount }) =>
-            `${category}: $${amount} (${percentage}%)`
-          }
+          label
         >
           {chartData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
