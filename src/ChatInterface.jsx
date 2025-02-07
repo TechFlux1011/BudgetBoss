@@ -1,16 +1,17 @@
+// ChatInterface.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import './ChatInterface.css';
 
 const ChatInterface = () => {
   const [messages, setMessages] = useState([
-    { sender: 'ai', text: 'Hi! Let’s start by getting your monthly net income.' }
+    { sender: 'ai', text: 'Hi! Please tell me your weekly net income.' }
   ]);
   const [input, setInput] = useState('');
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    
+
     const newMessage = { sender: 'user', text: input };
     const updatedMessages = [...messages, newMessage];
     setMessages(updatedMessages);
