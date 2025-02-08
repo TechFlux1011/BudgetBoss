@@ -10,14 +10,14 @@ const Dashboard = () => {
   const [chartData, setChartData] = useState([]);
   const [period, setPeriod] = useState('monthly');
   // For demonstration, we use a static userId. In a real app, get this from your auth/session.
-  const userId = "YOUR_USER_ID_HERE";
+
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/dashboard?period=${period}&userId=${userId}`)
+      .get(`http://localhost:5000/dashboard`)
       .then((response) => setChartData(response.data))
       .catch((error) => console.error('Error fetching dashboard data:', error));
-  }, [period, userId]);
+  }, []);
 
   return (
     <div className="dashboard-container">
