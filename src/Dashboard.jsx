@@ -1,47 +1,64 @@
-// Dashboard.js
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
 import axios from 'axios';
 import './Dashboard.css';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EEC'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EEC', '#FF6666']; // Added a new color for "Leftover"
 
 const Dashboard = () => {
   const [chartData, setChartData] = useState([]);
-  const [period, setPeriod] = useState('monthly');
-  // For demonstration, we use a static userId. In a real app, get this from your auth/session.
+  const [view, setView] = useState('weekly');
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/dashboard');
+      console.log("Fetched Data:", response.data);
+      
+      if (view === 'weekly') {
+        setChartData(formatData(response.data.expenses.weekly));
+      } else {
+        setChartData(formatData(response.data.expenses.monthly));
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/dashboard`)
-      .then((response) => setChartData(response.data))
-      .catch((error) => console.error('Error fetching dashboard data:', error));
-  }, []);
+    fetchData();
+  }, [view]); // Fetch data when the view changes
+
+  // Format data for PieChart
+  const formatData = (expenseData) => {
+    return Object.entries(expenseData).map(([category, amount]) => ({
+      category,
+      value: amount
+    }));
+  };
 
   return (
     <div className="dashboard-container">
       <h2>Budget Breakdown</h2>
+
       <div className="toggle">
-        <button onClick={() => setPeriod('weekly')} className={period === 'weekly' ? 'active' : ''}>
+        <button onClick={() => setView('weekly')} className={view === 'weekly' ? 'active' : ''}>
           Weekly
         </button>
-        <button onClick={() => setPeriod('monthly')} className={period === 'monthly' ? 'active' : ''}>
+        <button onClick={() => setView('monthly')} className={view === 'monthly' ? 'active' : ''}>
           Monthly
         </button>
       </div>
+
       <PieChart width={400} height={400}>
         <Pie
           data={chartData}
-          dataKey="percentage"  // Using calculated percentage for slice sizes
+          dataKey="value"
           nameKey="category"
           cx="50%"
           cy="50%"
           outerRadius={120}
           fill="#8884d8"
-          label={({ category, percentage, amount }) =>
-            `${category}: $${amount} (${percentage}%)`
-          }
+          label={({ category, value }) => `${category}: $${value}`}
         >
           {chartData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -49,13 +66,6 @@ const Dashboard = () => {
         </Pie>
         <Legend />
       </PieChart>
-      {chartData.find((d) => d.category === 'leftover') && (
-        <div className="sponsored-suggestion">
-          <p>
-            You have extra funds! Consider saving your leftover money in a high-yield savings account from [Sponsor Bank].
-          </p>
-        </div>
-      )}
     </div>
   );
 };
