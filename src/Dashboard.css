@@ -1,6 +1,9 @@
 .dashboard-container {
     padding: 20px;
     text-align: center;
+    background-color: #50627a;
+    color: #fff;
+    height: 100vh;
   }
   
   .toggle {
@@ -12,10 +15,12 @@
     margin: 0 5px;
     font-size: 16px;
     border-radius: 1rem;
+    border-style: solid;
+    border-color: #0d2f51;
   }
   
   .toggle button.active {
-    background-color: #0088FE;
+    background-color: #0d2f51;
     color: white;
   }
   
