@@ -1,33 +1,84 @@
 .dashboard-container {
-    padding: 20px;
-    text-align: center;
-    background-color: #50627a;
-    color: #fff;
-    height: 100vh;
-  }
-  
-  .toggle {
-    margin-bottom: 20px;
-  }
-  
-  .toggle button {
-    padding: 8px 16px;
-    margin: 0 5px;
-    font-size: 16px;
-    border-radius: 1rem;
-    border-style: solid;
-    border-color: #0d2f51;
-  }
-  
-  .toggle button.active {
-    background-color: #0d2f51;
-    color: white;
-  }
-  
-  .sponsored-suggestion {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-  }
-  
+  padding: 20px;
+  text-align: center;
+  background-color: #50627a;
+  color: #fff;
+  height: 100vh;
+}
+
+.toggle {
+  margin-bottom: 20px;
+}
+
+.toggle button {
+  padding: 8px 16px;
+  margin: 0 5px;
+  font-size: 16px;
+  border-radius: 1rem;
+  border-style: solid;
+  border-color: #0d2f51;
+}
+
+.toggle button.active {
+  background-color: #0d2f51;
+  color: white;
+}
+
+.sponsored-suggestion {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+}
+
+/* Chart wrapper for positioning the floating card */
+.chart-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Floating info card styling */
+.floating-card {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: transparent;
+  border-radius: 8px;
+
+  padding: 10px 20px;
+  z-index: 10;
+  width: 90%;
+  max-width: 400px;
+}
+
+/* Floating info card list styling */
+.floating-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.floating-card li {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.floating-card .bar-value {
+  flex: 1;
+  text-align: left;
+}
+
+.floating-card .bar-name {
+  flex: 2;
+  text-align: center;
+}
+
+.floating-card .bar-percentage {
+  flex: 1;
+  text-align: right;
+}
