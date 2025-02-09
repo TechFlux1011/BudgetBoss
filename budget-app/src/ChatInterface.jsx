@@ -8,22 +8,18 @@ const ChatInterface = () => {
   ]);
   const [input, setInput] = useState('');
 
+  // Function to send a message
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim()) return; // Ignore empty messages
 
-    // Append the user's message to the chat history
     const newMessage = { sender: 'user', text: input };
     const updatedMessages = [...messages, newMessage];
     setMessages(updatedMessages);
     setInput(''); // Clear input field
 
     try {
-      // Send the entire conversation to the backend
-      const response = await axios.post('http://localhost:5000/chat', {
-        messages: updatedMessages
-      });
+      const response = await axios.post('http://localhost:5000/chat', { messages: updatedMessages });
 
-      // Append AI's response to the chat
       const botMessage = { sender: 'ai', text: response.data.prompt };
       setMessages(prevMessages => [...prevMessages, botMessage]);
     } catch (error) {
@@ -32,6 +28,14 @@ const ChatInterface = () => {
         ...prevMessages,
         { sender: 'ai', text: 'Oops! Something went wrong. Please try again.' }
       ]);
+    }
+  };
+
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevents form submission (if inside a form)
+      sendMessage();
     }
   };
 
@@ -49,6 +53,7 @@ const ChatInterface = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyPress} // Handle Enter key
           placeholder="Type your response..."
         />
         <button onClick={sendMessage}>Send</button>

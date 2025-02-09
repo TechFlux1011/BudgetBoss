@@ -1,0 +1,17 @@
+{
+  "income": 8667,
+  "expenses": {
+    "weekly": {
+      "housing": 462,
+      "utilities": 46,
+      "food": 203,
+      "transportation": 65
+    },
+    "monthly": {
+      "housing": 2000,
+      "utilities": 200,
+      "food": 879,
+      "transportation": 281
+    }
+  }
+}
